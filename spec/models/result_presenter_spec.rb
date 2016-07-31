@@ -14,7 +14,7 @@ describe "ResultPresenter object" do
     it "can format data when there are results" do
       result_presenter = ResultPresenter.new(happy_result)
       result = result_presenter.happy_path
-      expected_format  = "Combo: tatter tots, 2.0; golden omelette, 3.0\nCombo: orange juice, 1.0; morning salad, 1.0; golden omelette, 3.0"
+      expected_format  = "\tCombo: tatter tots, 2.0; golden omelette, 3.0\n\tCombo: orange juice, 1.0; morning salad, 1.0; golden omelette, 3.0"
 
       expect( result ).to eq( expected_format)
     end
@@ -24,7 +24,7 @@ describe "ResultPresenter object" do
     it "can format data based on #happy_path" do
       result_presenter = ResultPresenter.new(happy_result)
       result_presenter.determine_format
-      expected_format  = "Combo: tatter tots, 2.0; golden omelette, 3.0\nCombo: orange juice, 1.0; morning salad, 1.0; golden omelette, 3.0"
+      expected_format  = "\tCombo: tatter tots, 2.0; golden omelette, 3.0\n\tCombo: orange juice, 1.0; morning salad, 1.0; golden omelette, 3.0"
 
       expect( result_presenter.formatted_result ).to eq( expected_format)
     end

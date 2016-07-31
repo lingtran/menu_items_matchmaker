@@ -22,6 +22,6 @@ content = result_presenter.formatted_result
 
 FileOperations.write_to_file(content)
 
-puts "Result(s):\n"
-puts "\t#{content}"
+puts "Result(s) that match target price of #{parsed_input.first }:\n"
+puts "#{content}"
 puts "You can also visit the file path '#{'data/found_combos.txt'}' to reference the result(s)."

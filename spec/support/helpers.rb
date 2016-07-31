@@ -9,12 +9,13 @@ module Helpers
 
   def set_items_and_prices
     [
-      { "mixed fruit"     => 2.15 },
-      { "golden omelette" => 3.00 },
-      { "tatter tots"     => 2.00 },
-      { "orange juice"    => 1.00 },
-      { "morning salad"   => 1.00 },
-      { "oatmeal"         => 6.00 }
+      { "mixed fruit"       => 2.15 },
+      { "golden omelette"   => 3.00 },
+      { "tatter tots"       => 2.00 },
+      { "orange juice"      => 1.00 },
+      { "morning salad"     => 1.00 },
+      { "wedged potatoes"   => 2.00 },
+      { "oatmeal"           => 6.00 }
     ]
   end
 
