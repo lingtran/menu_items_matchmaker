@@ -18,7 +18,7 @@ class PriceScanner
   end
 
   def calculate_sum_of(combo)
-    combo.reduce(0) {|sum, item| sum += item.values.first }
+    combo.reduce(0) { |sum, item| sum += item.values.first }
   end
 
   def find_target_price_items_combos(all_combos)

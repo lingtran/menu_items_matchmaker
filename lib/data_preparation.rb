@@ -1,4 +1,4 @@
-  class DataPreparation
+class DataPreparation
   def initialize
   end
 

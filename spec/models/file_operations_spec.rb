@@ -5,7 +5,7 @@ describe "FileOperations object" do
   context "processing a text file" do
     it "can read the contents of a text file" do
       test_file = 'spec/support/sample_menu.txt'
-      result = FileOperations.process_file(test_file)
+      result    = FileOperations.process_file(test_file)
 
       expect( result.class ).to eq(Array)
     end
