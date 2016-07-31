@@ -13,6 +13,7 @@ describe "DataPreparation object" do
 
       expect( @parsed_input.first.class ).to eq( String )
       expect( target ).not_to eq( @parsed_input.first.class )
+      expect( @prepared_content.send(:target) ).to eq( target )
     end
   end
 
@@ -23,6 +24,7 @@ describe "DataPreparation object" do
 
       expect( stored_data.size ).to eq( 4 )
       expect( stored_data.first.keys ).not_to include( target )
+      expect( @prepared_content.send(:items_prices) ).to eq( stored_data )
     end
   end
 
