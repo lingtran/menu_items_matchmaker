@@ -21,26 +21,26 @@ class PriceScanner
     combo.reduce(0) {|sum, item| sum += item.values.first }
   end
 
-  def find_target_price_combos(all_combos)
+  def find_target_price_items_combos(all_combos)
     all_combos.group_by { |combo| calculate_sum_of(combo) }[target]
   end
 
   def assign_sets_of_items_and_prices
     all_combos           = find_all_combos
-    @_target_item_combos = find_target_price_combos(all_combos)
+    @_target_price_items_combos = find_target_price_items_combos(all_combos)
   end
 
-  def target_item_combos_exist?
-    if target_item_combos.nil?
-      return "Unfortunately, there is no combination of dishes that sum to the target price."
+  def target_price_items_combos_exist?
+    if target_price_items_combos.nil?
+      return "\tUnfortunately, there is no combination of dishes that sum to the target price."
     else
-      target_item_combos
+      target_price_items_combos
     end
   end
 
   def analyze_input
     assign_sets_of_items_and_prices
-    target_item_combos_exist?
+    target_price_items_combos_exist?
   end
 
   private
@@ -48,7 +48,7 @@ class PriceScanner
       @_pruned_data
     end
 
-    def target_item_combos
-      @_target_item_combos
+    def target_price_items_combos
+      @_target_price_items_combos
     end
 end

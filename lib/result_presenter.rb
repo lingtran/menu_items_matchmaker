@@ -15,7 +15,7 @@ class ResultPresenter
   end
 
   def happy_path
-    result.map { |combo| "Combo: #{format_combo(combo)}" }.join("\n")
+    result.map { |combo| "\tCombo: #{format_combo(combo)}" }.join("\n")
   end
 
   def format_combo(combo)
