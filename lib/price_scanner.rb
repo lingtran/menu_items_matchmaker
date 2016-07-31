@@ -26,7 +26,7 @@ class PriceScanner
   end
 
   def assign_sets_of_items_and_prices
-    all_combos           = find_all_combos
+    all_combos                  = find_all_combos
     @_target_price_items_combos = find_target_price_items_combos(all_combos)
   end
 
