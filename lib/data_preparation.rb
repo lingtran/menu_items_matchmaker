@@ -1,9 +1,9 @@
-class DataPreparation
+  class DataPreparation
   def initialize
   end
 
   def assign_target_price(input)
-    convert_to_float(input.first)
+    @_target = convert_to_float(input.first)
   end
 
   def split_data(input)
@@ -15,10 +15,19 @@ class DataPreparation
   end
 
   def assign_items_with_prices(input)
-    format_split_data(input).map { |item| Hash[*item] }
+    @_items_prices = format_split_data(input).map { |item| Hash[*item] }
   end
 
   def convert_to_float(element)
     element.gsub(/[^\d\.]/, '').to_f
   end
+
+  private
+    def target
+      @_target
+    end
+
+    def items_prices
+      @_items_prices
+    end
 end
