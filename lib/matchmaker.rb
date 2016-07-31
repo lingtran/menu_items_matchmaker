@@ -5,18 +5,20 @@ require_relative 'result_presenter'
 class Matchmaker
   def initialize(parsed_input)
     @_parsed_input = parsed_input
-    @_prep_content = DataPreparation.new
   end
 
   def prepare_content
+    @_prep_content = DataPreparation.new
     prep_content.assign_target_price(parsed_input)
     prep_content.assign_items_with_prices(parsed_input)
+    prep_content
   end
 
   def start_scanner
-    scanner = PriceScanner.new(prep_content.send(:target))
+    scanner  = PriceScanner.new(prep_content.send(:target))
     scanner.prune_items_with_prices_exceeding_target_price(prep_content.send(:items_prices))
     @_result = scanner.analyze_input
+    scanner
   end
 
   def present_result
@@ -32,15 +34,15 @@ class Matchmaker
   end
 
   private
-  def parsed_input
-    @_parsed_input
-  end
+    def parsed_input
+      @_parsed_input
+    end
 
-  def prep_content
-    @_prep_content
-  end
+    def prep_content
+      @_prep_content
+    end
 
-  def result
-    @_result
-  end
+    def result
+      @_result
+    end
 end

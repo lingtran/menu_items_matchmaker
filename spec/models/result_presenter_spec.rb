@@ -32,9 +32,8 @@ describe "ResultPresenter object" do
     it "can leave sad message when there are no results" do
       result_presenter = ResultPresenter.new(sad_result)
       result_presenter.determine_format
-      expected_format = "Unfortunately, there is no combination of dishes that sum to the target price."
 
-      expect( result_presenter.formatted_result ).to eq( expected_format )
+      expect( result_presenter.formatted_result ).to eq( sad_result)
     end
   end
 end

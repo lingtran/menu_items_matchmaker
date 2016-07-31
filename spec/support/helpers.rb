@@ -45,7 +45,7 @@ module Helpers
   end
 
   def sad_result
-    return "Unfortunately, there is no combination of dishes that sum to the target price."
+    return "\tUnfortunately, there is no combination of dishes that sum to the target price."
   end
 
   def happy_result
