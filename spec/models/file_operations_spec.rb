@@ -23,7 +23,7 @@ describe "FileOperations object" do
       test_content = "this is test content"
       new_file     = 'data/found_combos.txt'
 
-    # If the test suite was ran after running the program, this line will fail
+    # If the test suite was ran after running the program or if this is not the first time test suite is ran, this line will fail. Resulting data file can be deleted, run test suite, and this line will pass.
       expect( File.exists?(new_file) ).to eq(false)
 
       FileOperations.write_to_file(test_content)
