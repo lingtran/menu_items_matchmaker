@@ -29,7 +29,6 @@ class PriceScanner
     all_price_combos.group_by { |combo| combo.reduce(0.0, :+) }[target]
   end
 
-
   def match_item_by_price(price)
     pruned_data.find_all { |item| item.has_value?(price) }
   end
