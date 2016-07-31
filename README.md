@@ -1,5 +1,7 @@
 ### Context 
-Given a data file in which the target price is stated in the first line of it, the menu items matchmaker is able to return results showcasing different combinations of menu items that sum to the target price.
+Given a data file in which the target price is stated in the first line of it, the menu items matchmaker is able to return results showcasing different combinations of menu items that sum to the target price. 
+
+Program runs in the command line. See commands below to perform stated actions.
 
 ### Get program by cloning down repo
 > `git clone https://github.com/lingtran/menu_items_matchmaker.git`
