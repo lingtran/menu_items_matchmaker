@@ -25,7 +25,7 @@ describe "PriceScanner object" do
       expect( data.size ).not_to eq( original_size )
     end
 
-    it "can set pruned_data as an accessible variable" do
+    it "can set pruned_data as an accessible method" do
       data     = set_items_and_prices
       scanner.prune_items_with_prices_exceeding_target_price(data)
       new_size = data.size
@@ -70,14 +70,13 @@ describe "PriceScanner object" do
     end
   end
 
-  context "it cannot find a match" do
+  context "it cannot find a match and #analyze_input" do
     it "returns a sad message informing that no matches were found against target price" do
       sad_message    = "Unfortunately, there is no combination of dishes that sum to the target price."
       scanner_three  = PriceScanner.new(set_sample_target)
       data_set_three = set_addtl_items_and_prices
       scanner_three.prune_items_with_prices_exceeding_target_price(data_set_three)
-      scanner_three.assign_sets_of_items_and_prices
-      result         = scanner_three.target_item_combos_exist?
+      result         = scanner_three.analyze_input
 
       expect( result ).to eq( sad_message )
     end

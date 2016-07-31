@@ -17,8 +17,12 @@ class PriceScanner
     pruned_data.map.with_index(1) { |_e, i| set_combinations(pruned_data, i) }.flatten(1).uniq
   end
 
+  def calculate_sum_of(combo)
+    combo.reduce(0) {|sum, item| sum += item.values.first }
+  end
+
   def find_target_price_combos(all_combos)
-    all_combos.group_by { |combo| combo.reduce(0) {|sum, item| sum += item.values.first } }[target]
+    all_combos.group_by { |combo| calculate_sum_of(combo) }[target]
   end
 
   def assign_sets_of_items_and_prices
