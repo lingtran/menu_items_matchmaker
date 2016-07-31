@@ -1,5 +1,5 @@
 ### Context 
-Given a data file in which the target price is stated in the first line of it, the menu items matchmater is able to return results showcasing different combinations of menu items that sum to the target price.
+Given a data file in which the target price is stated in the first line of it, the menu items matchmaker is able to return results showcasing different combinations of menu items that sum to the target price.
 
 ### Install Dependencies
 > `bundle install`
