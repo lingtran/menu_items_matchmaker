@@ -9,43 +9,103 @@ class PriceScanner
     @_pruned_data = input.delete_if { |item| item.values.first > target }
   end
 
-  def set_combinations(collection, length)
-    collection.combination(length).to_a
+  def set_combinations
+    @_combos = (0..target).map { |i| [] }
   end
 
-  def find_all_combos
-    pruned_data.map.with_index(1) { |_e, i| set_combinations(pruned_data, i) }.flatten(1).uniq
+  def set_values_combos_counter
+    @_values_combos_counter = (0..target).map { |i| {i=>0} }
   end
 
-  def calculate_sum_of(combo)
-    combo.reduce(0) { |sum, item| sum += item.values.first }
+  def set_up
+    set_combinations
+    set_values_combos_counter
   end
 
-  def find_target_price_items_combos(all_combos)
-    all_combos.group_by { |combo| calculate_sum_of(combo) }[target]
+  def increment_counter(index)
+    values_combos_counter[index][index] += 1
   end
 
-  def assign_sets_of_items_and_prices
-    all_combos                  = find_all_combos
-    @_target_price_items_combos = find_target_price_items_combos(all_combos)
-  end
-
-  def target_price_items_combos_exist?
-    if target_price_items_combos.nil?
-      return "\tUnfortunately, there is no combination of dishes that sum to the target price."
-    else
-      target_price_items_combos
+  def find_up_to_target_price_combinations
+    pruned_data.each do |item|
+      values_combos_counter.each_with_index do |value, index|
+        if index == 0
+          next
+        elsif is_divisible?(index, item)
+          set_combo_for_index_divisible_by_item_price(index, item)
+        elsif is_greater_than_item_price?(index, item)
+          diff = get_difference(index, item)
+          set_combos_for_index_with_combos_at_difference(diff, index, item)
+        else
+          next
+        end
+      end
     end
   end
 
-  def analyze_input
-    assign_sets_of_items_and_prices
-    target_price_items_combos_exist?
+  def find_target_price_items_combos
+    combos[target]
   end
+
+  def is_divisible?(index, item)
+    (index % item.values.first) == 0
+  end
+
+  def divide_index_by_item_price(index, item)
+    index/(item.values.first)
+  end
+
+  def set_combo_for_index_divisible_by_item_price(index, item)
+    increment_counter(index)
+    q = divide_index_by_item_price(index, item)
+    combos[index] << [ {q => item} ]
+  end
+
+  def is_greater_than_item_price?(index, item)
+    index > item.values.first
+  end
+
+  def get_difference(index, item)
+    index - item.values.first
+  end
+
+  def set_combos_for_index_with_combos_at_difference(diff, index, item)
+    combos[diff].each do |combo|
+      increment_counter(index)
+      combos[index] << [ combo, { 1 => item} ]
+    end
+  end
+
+  def assign_combos_at_different_values
+    find_up_to_target_price_combinations
+    @_target_price_items_combos = find_target_price_items_combos
+  end
+
+  #
+  # def target_price_items_combos_exist?
+  #   if target_price_items_combos.nil?
+  #     return "\tUnfortunately, there is no combination of dishes that sum to the target price."
+  #   else
+  #     target_price_items_combos
+  #   end
+  # end
+  #
+  # def analyze_input
+  #   assign_sets_of_items_and_prices
+  #   target_price_items_combos_exist?
+  # end
 
   private
     def pruned_data
       @_pruned_data
+    end
+
+    def combos
+      @_combos
+    end
+
+    def values_combos_counter
+      @_values_combos_counter
     end
 
     def target_price_items_combos

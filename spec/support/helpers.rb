@@ -4,43 +4,43 @@ module Helpers
   end
 
   def set_sample_target
-    5.00
+    500
   end
 
   def set_items_and_prices
     [
-      { "mixed fruit"       => 2.15 },
-      { "golden omelette"   => 3.00 },
-      { "tatter tots"       => 2.00 },
-      { "orange juice"      => 1.00 },
-      { "morning salad"     => 1.00 },
-      { "wedged potatoes"   => 2.00 },
-      { "oatmeal"           => 6.00 }
+      { "mixed fruit"       => 215 },
+      { "golden omelette"   => 300 },
+      { "tatter tots"       => 200 },
+      { "orange juice"      => 100 },
+      { "morning salad"     => 100 },
+      { "wedged potatoes"   => 200 },
+      { "oatmeal"           => 600 }
     ]
   end
 
   def set_addtl_items_and_prices
     [
-      { "fries"               => 4.00 },
-      { "beer"                => 4.00 },
-      { "pumpkin curry pasta" => 10.00 },
-      { "pomegranate juice"   => 6.00 }
+      { "fries"               => 400 },
+      { "beer"                => 400 },
+      { "pumpkin curry pasta" => 1000 },
+      { "pomegranate juice"   => 600 }
     ]
   end
 
   def set_another_target
-    15.05
+    1505
   end
 
   def set_more_items_and_prices
     [
-      { "mixed fruit"           => 2.15 },
-      { "french fries"          => 2.75 },
-      { "side salad"            => 3.35 },
-      { "hot wings"             => 3.55 },
-      { "mozzarella sticks"     => 4.20 },
-      { "sampler plate"         => 5.80 },
-      { "larger sampler plate"  => 9.25 }
+      { "mixed fruit"           => 215 },
+      { "french fries"          => 275 },
+      { "side salad"            => 335 },
+      { "hot wings"             => 355 },
+      { "mozzarella sticks"     => 420 },
+      { "sampler plate"         => 580 },
+      { "larger sampler plate"  => 925 }
     ]
   end
 
@@ -50,8 +50,8 @@ module Helpers
 
   def happy_result
     [
-      [{ "tatter tots"=>2.0 }, { "golden omelette"=>3.0 }],
-      [{ "orange juice"=>1.0 }, { "morning salad"=>1.0 }, { "golden omelette"=>3.0 }]
+      [{ "tatter tots"=>200 }, { "golden omelette"=>300 }],
+      [{ "orange juice"=>100 }, { "morning salad"=>100 }, { "golden omelette"=>300 }]
     ]
   end
 end
