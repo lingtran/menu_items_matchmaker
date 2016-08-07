@@ -10,17 +10,23 @@ class DataPreparation
     input[1..-1].map { |item| item.split(',') }
   end
 
+
+  def convert_to_float(element)
+    element.gsub(/[^\d\.]/, '').to_f
+  end
+
+  def convert_to_integer(element)
+    (convert_to_float(element) * 100).to_i
+  end
+
   def format_split_data(input)
-    split_data(input).map { |item| [ item[0], convert_to_float(item[1]) ] }
+    split_data(input).map { |item| [ item[0], convert_to_integer(item[1]) ] }
   end
 
   def assign_items_with_prices(input)
     @_items_prices = format_split_data(input).map { |item| Hash[*item] }
   end
 
-  def convert_to_float(element)
-    element.gsub(/[^\d\.]/, '').to_f
-  end
 
   private
     def target

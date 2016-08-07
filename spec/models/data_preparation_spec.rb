@@ -38,4 +38,16 @@ describe "DataPreparation object" do
       expect( result ).not_to eq( dollar_string )
     end
   end
+
+  context "#convert_to_integer" do
+    it "can format converted float to integer" do
+      content       = DataPreparation.new
+      dollar_string = "$5.00"
+      result        = content.convert_to_integer(dollar_string)
+
+      expect( result.class ).to eq( Fixnum )
+      expect( result ).not_to eq( dollar_string )
+      expect( result ).to eq( 500 )
+    end
+  end
 end
