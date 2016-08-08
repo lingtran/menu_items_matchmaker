@@ -26,8 +26,10 @@ describe "PriceScanner object" do
     end
 
     it "can set pruned_data as an accessible method" do
-      data     = set_items_and_prices
+      data = set_items_and_prices
+
       scanner.prune_items_with_prices_exceeding_target_price(data)
+
       new_size = data.size
 
       expect( scanner.send(:pruned_data).size ).to eq( new_size )
@@ -71,8 +73,10 @@ describe "PriceScanner object" do
 
     before(:each) do
       @data = set_items_and_prices
+
       scanner.prune_items_with_prices_exceeding_target_price(data)
       scanner.set_up
+
       @combos = scanner.send(:combos)
     end
 
@@ -93,58 +97,67 @@ describe "PriceScanner object" do
       item  = data[2]
       diff  = scanner.get_difference(index, item)
 
+      scanner.set_combo_for_index_divisible_by_item_price(100, data[3])
+      scanner.set_combo_for_index_divisible_by_item_price(100, data[4])
       expect( scanner.is_greater_than_item_price?(index, item) ).to eq( true )
 
       result = scanner.set_combos_for_index_with_combos_at_difference(diff, index, item)
 
-      expect( result ).to eq( "something" )
+      expect( result ).to eq( [[{1=>{"orange juice"=>100}}, {1=>{"tatter tots"=>200}}], [{1=>{"morning salad"=>100}}, {1=>{"tatter tots"=>200}}]] )
       expect( result ).to eq( combos[index] )
     end
-  end
 
-  # xcontext "find matching target price combos" do
-  #   before(:each) do
-  #     data             = set_items_and_prices
-  #     scanner.prune_items_with_prices_exceeding_target_price(data)
-  #     @all_combos      = scanner.find_all_combos
-  #   end
-  #
-  #   it "can return a collection of prices of all unique combinations" do
-  #     expect( @all_combos.size ).to eq( 63 )
-  #   end
-  #
-  #   it "can return a collection of prices that sum exactly to target price" do
-  #     matched_price_combos = scanner.find_target_price_items_combos(@all_combos)
-  #     expected_matches     = [[{"golden omelette"=>300}, {"tatter tots"=>200}],
-  #                             [{"golden omelette"=>300}, {"wedged potatoes"=>200}],
-  #                             [{"golden omelette"=>300}, {"orange juice"=>100}, {"morning salad"=>100}],
-  #                             [{"tatter tots"=>200}, {"orange juice"=>100}, {"wedged potatoes"=>200}],
-  #                             [{"tatter tots"=>200}, {"morning salad"=>100}, {"wedged potatoes"=>200}]]
-  #
-  #     expect( matched_price_combos.count ).to eq( 5 )
-  #     expect( matched_price_combos ).to eq( expected_matches )
-  #   end
-  # end
+    it "can find target price items combos" do
+      result        = scanner.assign_combos_at_different_values
+      expect_result = [
+                       [{1=>{"golden omelette"=>300}}, {1=>{"tatter tots"=>200}}],
+                       [{5=>{"orange juice"=>100}}],
+                       [{5=>{"morning salad"=>100}}],
+                       [{1=>{"golden omelette"=>300}}, {1=>{"wedged potatoes"=>200}}],
+                       [{3=>{"orange juice"=>100}}, {1=>{"wedged potatoes"=>200}}],
+                       [{3=>{"morning salad"=>100}}, {1=>{"wedged potatoes"=>200}}],
+                       [{1=>{"orange juice"=>100}}, {2=>{"wedged potatoes"=>200}}],
+                       [{1=>{"morning salad"=>100}}, {2=>{"wedged potatoes"=>200}}]
+                     ]
 
-  xcontext "#target_item_combos_exist?" do
-    it "can return sets of items after finding price combos with a different data set" do
-      scanner_two   = PriceScanner.new(set_another_target)
-      data_set_two  = set_more_items_and_prices
-      scanner_two.prune_items_with_prices_exceeding_target_price(data_set_two)
-      scanner_two.assign_sets_of_items_and_prices
-      matched_items = scanner_two.target_price_items_combos_exist?
-
-      expect( matched_items ).to eq( [ [{ "sampler plate"=>580 }, { "larger sampler plate"=>925 }] ] )
+      expect( result ).to eq( expect_result )
+      expect( result.length ).to eq( 8 )
+      expect( {target => result.length} ).to eq( scanner.send(:values_combos_counter)[target] )
+      expect( result ).to eq( scanner.send(:target_price_items_combos) )
     end
   end
 
-  xcontext "it cannot find a match and #analyze_input" do
+
+  context "#target_item_combos_exist?" do
+    it "can return sets of items after finding price combos with a different data set" do
+      target_two    = set_another_target
+      scanner_two   = PriceScanner.new(target_two)
+      data_set_two  = set_more_items_and_prices
+
+      scanner_two.prune_items_with_prices_exceeding_target_price(data_set_two)
+      scanner_two.set_up
+      scanner_two.assign_combos_at_different_values
+
+      matched_items   = scanner_two.target_price_items_combos_exist?
+      expected_result = [
+                          [{7=>{"mixed fruit"=>215}}],
+                          [{1=>{"mixed fruit"=>215}}, {3=>{"hot wings"=>355}}, {1=>{"sampler plate"=>580}}],
+                          [{1=>{"sampler plate"=>580}}, {1=>{"larger sampler plate"=>925}}]
+                        ]
+
+      expect( matched_items ).to eq( expected_result )
+    end
+  end
+
+  context "it cannot find a match and #analyze_input" do
     it "returns a sad message informing that no matches were found against target price" do
       sad_message    = "\tUnfortunately, there is no combination of dishes that sum to the target price."
       scanner_three  = PriceScanner.new(set_sample_target)
       data_set_three = set_addtl_items_and_prices
+
       scanner_three.prune_items_with_prices_exceeding_target_price(data_set_three)
-      result         = scanner_three.analyze_input
+
+      result = scanner_three.analyze_input
 
       expect( result ).to eq( sad_message )
     end

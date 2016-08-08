@@ -72,8 +72,31 @@ class PriceScanner
   def set_combos_for_index_with_combos_at_difference(diff, index, item)
     combos[diff].each do |combo|
       increment_counter(index)
-      combos[index] << [ combo, { 1 => item} ]
+      if item_already_included_in_combo?(combo, item)
+        combos[index] << update_combo(combo, item)
+      else
+        combos[index] << [ combo, { 1 => item } ].flatten
+      end
     end
+    combos[index]
+  end
+
+  def update_combo(combo, item)
+    new_q = increment_quantity(combo, item)
+    remove_old_option(combo, item)
+    combo << { new_q => item }
+  end
+
+  def item_already_included_in_combo?(combo, item)
+    combo.any? { |option| option.values.include?(item) }
+  end
+
+  def remove_old_option(combo, item)
+    combo.delete_if { |option| option.values.include?(item) }
+  end
+
+  def increment_quantity(combo, item)
+    combo.find { |option| option.values.include?(item) }.keys.first + 1
   end
 
   def assign_combos_at_different_values
@@ -81,19 +104,20 @@ class PriceScanner
     @_target_price_items_combos = find_target_price_items_combos
   end
 
-  #
-  # def target_price_items_combos_exist?
-  #   if target_price_items_combos.nil?
-  #     return "\tUnfortunately, there is no combination of dishes that sum to the target price."
-  #   else
-  #     target_price_items_combos
-  #   end
-  # end
-  #
-  # def analyze_input
-  #   assign_sets_of_items_and_prices
-  #   target_price_items_combos_exist?
-  # end
+
+  def target_price_items_combos_exist?
+    if target_price_items_combos.empty?
+      return "\tUnfortunately, there is no combination of dishes that sum to the target price."
+    else
+      target_price_items_combos
+    end
+  end
+
+  def analyze_input
+    set_up
+    assign_combos_at_different_values
+    target_price_items_combos_exist?
+  end
 
   private
     def pruned_data
