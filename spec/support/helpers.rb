@@ -50,8 +50,9 @@ module Helpers
 
   def happy_result
     [
-      [{ "tatter tots"=>200 }, { "golden omelette"=>300 }],
-      [{ "orange juice"=>100 }, { "morning salad"=>100 }, { "golden omelette"=>300 }]
+      [{1=>{"golden omelette"=>300}}, {1=>{"tatter tots"=>200}}],
+      [{5=>{"orange juice"=>100}}],
+      [{5=>{"morning salad"=>100}}]
     ]
   end
 end
