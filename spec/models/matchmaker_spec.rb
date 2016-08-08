@@ -28,8 +28,8 @@ describe "Matchmaker object" do
     end
 
     it "can prepare content with setting target and items-prices values" do
-      expect( prep_content.send(:target) ).to eq( 5.0 )
-      expect( prep_content.send(:items_prices) ).to eq ( [{"mixed fruit"=>2.15}, {"golden omelette"=>3.0}, {"tatter tots"=>2.0}, {"orange juice"=>2.0}] )
+      expect( prep_content.send(:target) ).to eq( 500 )
+      expect( prep_content.send(:items_prices) ).to eq ( [{"mixed fruit"=>215}, {"golden omelette"=>300}, {"tatter tots"=>200}, {"orange juice"=>200}] )
     end
 
     it "can return unformatted results after data preparation" do
@@ -37,7 +37,7 @@ describe "Matchmaker object" do
     end
 
     it "can return formatted results after scanning input" do
-      expected_format = "\tCombo: golden omelette, 3.0; tatter tots, 2.0\n\tCombo: golden omelette, 3.0; orange juice, 2.0"
+      expected_format = "\tCombo: 1, golden omelette (3.0); 1, tatter tots (2.0)\n\tCombo: 1, golden omelette (3.0); 1, orange juice (2.0)"
 
       expect( formatted_result ).to eq( expected_format )
     end

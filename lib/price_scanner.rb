@@ -104,7 +104,6 @@ class PriceScanner
     @_target_price_items_combos = find_target_price_items_combos
   end
 
-
   def target_price_items_combos_exist?
     if target_price_items_combos.empty?
       return "\tUnfortunately, there is no combination of dishes that sum to the target price."

@@ -3,7 +3,7 @@ class DataPreparation
   end
 
   def assign_target_price(input)
-    @_target = convert_to_float(input.first)
+    @_target = convert_to_integer(input.first)
   end
 
   def split_data(input)
