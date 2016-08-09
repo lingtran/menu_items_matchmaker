@@ -33,6 +33,6 @@ class ResultPresenter
   end
 
   def format_item_price(item)
-    (item.values.first.values.first/100).to_f
+    item.values.first.values.first/100.to_f
   end
 end

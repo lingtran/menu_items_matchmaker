@@ -28,7 +28,7 @@ describe "Matchmaker object" do
     end
 
     it "can prepare content with setting target and items-prices values" do
-      expect( prep_content.send(:target) ).to eq( 500 )
+      expect( prep_content.send(:target) ).to eq( 515 )
       expect( prep_content.send(:items_prices) ).to eq ( [{"mixed fruit"=>215}, {"golden omelette"=>300}, {"tatter tots"=>200}, {"orange juice"=>200}] )
     end
 
@@ -37,7 +37,7 @@ describe "Matchmaker object" do
     end
 
     it "can return formatted results after scanning input" do
-      expected_format = "\tCombo: 1, golden omelette (3.0); 1, tatter tots (2.0)\n\tCombo: 1, golden omelette (3.0); 1, orange juice (2.0)"
+      expected_format = "\tCombo: 1, mixed fruit (2.15); 1, golden omelette (3.0)"
 
       expect( formatted_result ).to eq( expected_format )
     end
@@ -51,6 +51,18 @@ describe "Matchmaker object" do
       results      = matchmaker.make_analysis
 
       expect( results ).to eq( sad_result )
+    end
+  end
+
+  context "another case" do
+    it "returns happy result with another data set" do
+      test_file       = 'spec/support/menu.txt'
+      parsed_input    = parse_data_file(test_file)
+      matchmaker      = Matchmaker.new(parsed_input)
+      results         = matchmaker.make_analysis
+      expected_result = "\tCombo: 7, mixed fruit (2.15)\n\tCombo: 1, mixed fruit (2.15); 2, hot wings (3.55); 1, sampler plate (5.8)"
+
+      expect( results ).to eq( expected_result )
     end
   end
 end

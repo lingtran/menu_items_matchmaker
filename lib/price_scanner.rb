@@ -73,7 +73,7 @@ class PriceScanner
     combos[diff].each do |combo|
       increment_counter(index)
       if item_already_included_in_combo?(combo, item)
-        combos[index] << update_combo(combo, item)
+        combos[index] << determine_if_update(combo, item, index)
       else
         combos[index] << [ combo, { 1 => item } ].flatten
       end
@@ -81,10 +81,26 @@ class PriceScanner
     combos[index]
   end
 
+  def determine_if_update(combo, item, index)
+    new_combo = update_combo(combo, item)
+    new_total_price = get_price(new_combo)
+    if new_total_price > index
+      combo
+    else
+      new_combo
+    end
+  end
+
+  def get_price(combo)
+    combo.reduce(0) { |sum, item| sum += (item.keys.first * item.values.first.values.first) }
+  end
+
   def update_combo(combo, item)
-    new_q = increment_quantity(combo, item)
-    remove_old_option(combo, item)
-    combo << { new_q => item }
+    new_combo = []
+    new_combo.replace(combo)
+    new_q = increment_quantity(new_combo, item)
+    remove_old_option(arr, item)
+    arr << { new_q => item }
   end
 
   def item_already_included_in_combo?(combo, item)

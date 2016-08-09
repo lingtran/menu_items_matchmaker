@@ -141,7 +141,7 @@ describe "PriceScanner object" do
       matched_items   = scanner_two.target_price_items_combos_exist?
       expected_result = [
                           [{7=>{"mixed fruit"=>215}}],
-                          [{1=>{"mixed fruit"=>215}}, {3=>{"hot wings"=>355}}, {1=>{"sampler plate"=>580}}],
+                          [{1=>{"mixed fruit"=>215}}, {2=>{"hot wings"=>355}}, {1=>{"sampler plate"=>580}}],
                           [{1=>{"sampler plate"=>580}}, {1=>{"larger sampler plate"=>925}}]
                         ]
 
