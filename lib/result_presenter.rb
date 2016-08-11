@@ -19,6 +19,20 @@ class ResultPresenter
   end
 
   def format_combo(combo)
-    combo.map { |item| "#{item.keys.first}, #{item.values.first}"}.join("; ")
+    combo.map do |item|
+      "#{format_quantity(item)}, #{format_item_name(item)} (#{format_item_price(item)})"
+    end.join("; ")
+  end
+
+  def format_quantity(item)
+    item.keys.first
+  end
+
+  def format_item_name(item)
+    item.values.first.keys.first
+  end
+
+  def format_item_price(item)
+    item.values.first.values.first/100.to_f
   end
 end
