@@ -51,10 +51,6 @@ class PriceScanner
     (index % item.values.first) == 0
   end
 
-  def divide_index_by_item_price(index, item)
-    index/(item.values.first)
-  end
-
   def set_combo_for_index_divisible_by_item_price(index, item)
     increment_counter(index)
     q = divide_index_by_item_price(index, item)
@@ -73,46 +69,12 @@ class PriceScanner
     combos[diff].each do |combo|
       increment_counter(index)
       if item_already_included_in_combo?(combo, item)
-        combos[index] << determine_if_update(combo, item, index)
+        combos[index] << determine_retain_or_update_combo(combo, item, index)
       else
         combos[index] << [ combo, { 1 => item } ].flatten
       end
     end
     combos[index]
-  end
-
-  def determine_if_update(combo, item, index)
-    new_combo = update_combo(combo, item)
-    new_total_price = get_price(new_combo)
-    if new_total_price > index
-      combo
-    else
-      new_combo
-    end
-  end
-
-  def get_price(combo)
-    combo.reduce(0) { |sum, item| sum += (item.keys.first * item.values.first.values.first) }
-  end
-
-  def update_combo(combo, item)
-    new_combo = []
-    new_combo.replace(combo)
-    new_q = increment_quantity(new_combo, item)
-    remove_old_option(arr, item)
-    arr << { new_q => item }
-  end
-
-  def item_already_included_in_combo?(combo, item)
-    combo.any? { |option| option.values.include?(item) }
-  end
-
-  def remove_old_option(combo, item)
-    combo.delete_if { |option| option.values.include?(item) }
-  end
-
-  def increment_quantity(combo, item)
-    combo.find { |option| option.values.include?(item) }.keys.first + 1
   end
 
   def assign_combos_at_different_values
@@ -149,5 +111,50 @@ class PriceScanner
 
     def target_price_items_combos
       @_target_price_items_combos
+    end
+
+    def divide_index_by_item_price(index, item)
+      index/(item.values.first)
+    end
+
+    def item_already_included_in_combo?(combo, item)
+      combo.any? { |option| option.values.include?(item) }
+    end
+
+    def determine_retain_or_update_combo(combo, item, index)
+      new_combo = set_new_combo(combo, item)
+
+      if new_price_greater_than_index?(new_combo, index)
+        combo
+      else
+        new_combo
+      end
+    end
+
+    def set_new_combo(combo, item)
+      new_combo = initialize_combo(combo)
+      new_q     = increment_quantity(new_combo, item)
+      remove_old_option(new_combo, item)
+      new_combo << { new_q => item }
+    end
+
+    def initialize_combo(combo)
+      Array.new.replace(combo)
+    end
+
+    def increment_quantity(combo, item)
+      combo.find { |option| option.values.include?(item) }.keys.first + 1
+    end
+
+    def remove_old_option(combo, item)
+      combo.delete_if { |option| option.values.include?(item) }
+    end
+
+    def new_price_greater_than_index?(new_combo, index)
+      get_price(new_combo) > index
+    end
+
+    def get_price(combo)
+      combo.reduce(0) { |sum, item| sum += (item.keys.first * item.values.first.values.first) }
     end
 end
